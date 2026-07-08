@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRHA Accounting Portal — Add Client</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <span class="brand__mark">IR</span>
+      <div class="brand__text">
+        <span class="brand__name">IRHA</span>
+        <span class="brand__sub">Accounting Portal</span>
+      </div>
+    </div>
+    <div class="topbar__flow">Client Onboarding Flow</div>
+  </div>
+</header>
+
+<!-- ============ STEPPER ============ -->
+<nav class="stepper" aria-label="Onboarding progress">
+  <ol class="stepper__list" id="stepperList">
+    <li class="stepper__item is-active" data-step="1">
+      <button class="stepper__btn" data-target="1">
+        <span class="stepper__num">01</span>
+        <span class="stepper__label">
+          <strong>KYC Form</strong>
+          <em>Create Customer</em>
+        </span>
+      </button>
+    </li>
+    <li class="stepper__item is-locked" data-step="2">
+      <button class="stepper__btn" data-target="2" disabled>
+        <span class="stepper__num">02</span>
+        <span class="stepper__label">
+          <strong>Add Client</strong>
+          <em>Create Case</em>
+        </span>
+      </button>
+    </li>
+    <li class="stepper__item is-locked" data-step="3">
+      <button class="stepper__btn" data-target="3" disabled>
+        <span class="stepper__num">03</span>
+        <span class="stepper__label">
+          <strong>Quotation → Compliance</strong>
+          <em>Inside a popup</em>
+        </span>
+      </button>
+    </li>
+    <li class="stepper__item is-locked" data-step="4">
+      <button class="stepper__btn" data-target="4" disabled>
+        <span class="stepper__num">04</span>
+        <span class="stepper__label">
+          <strong>Client ID Created</strong>
+          <em>CLT-0001</em>
+        </span>
+      </button>
+    </li>
+  </ol>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main class="layout">
+
+  <!-- ---------- FORM COLUMN ---------- -->
+  <section class="panel form-panel">
+
+    <!-- STEP 1: KYC FORM -->
+    <form class="step" id="step1" data-step-panel="1">
+      <div class="step__head">
+        <span class="step__eyebrow">Step 01 · Create Customer</span>
+        <h1 class="step__title">KYC Form</h1>
+        <p class="step__desc">Customer fills identity, address, contact and tax details, and selects services. The system generates a Customer ID once submitted.</p>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="e.g. Ravi Mehta" required>
+        </div>
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" name="businessName" placeholder="e.g. Mehta Textiles Pvt. Ltd." required>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="name@business.com" required>
+        </div>
+        <div class="field">
+          <label for="phone">Contact number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 98xxxxxxx0" required>
+        </div>
+        <div class="field field--wide">
+          <label for="address">Registered address</label>
+          <input type="text" id="address" name="address" placeholder="Street, city, state, PIN" required>
+        </div>
+        <div class="field">
+          <label for="taxId">Tax ID <span class="hint">(PAN / GSTIN)</span></label>
+          <input type="text" id="taxId" name="taxId" placeholder="e.g. AAAAA0000A1Z5" required>
+        </div>
+      </div>
+
+      <fieldset class="services">
+        <legend>Services required</legend>
+        <div class="services__grid">
+          <label class="chip"><input type="checkbox" name="services" value="Bookkeeping"><span>Bookkeeping</span></label>
+          <label class="chip"><input type="checkbox" name="services" value="Payroll"><span>Payroll</span></label>
+          <label class="chip"><input type="checkbox" name="services" value="GST Filing"><span>GST Filing</span></label>
+          <label class="chip"><input type="checkbox" name="services" value="Income Tax"><span>Income Tax</span></label>
+          <label class="chip"><input type="checkbox" name="services" value="Audit &amp; Assurance"><span>Audit &amp; Assurance</span></label>
+          <label class="chip"><input type="checkbox" name="services" value="ROC Compliance"><span>ROC Compliance</span></label>
+        </div>
+        <p class="field-error" id="servicesError">Select at least one service.</p>
+      </fieldset>
+
+      <div class="step__actions">
+        <span class="step__note">A Customer ID is generated on submit — it cannot be edited afterward.</span>
+        <button type="submit" class="btn btn--primary">Generate Customer ID →</button>
+      </div>
+    </form>
+
+    <!-- STEP 2: ADD CLIENT -->
+    <form class="step is-hidden" id="step2" data-step-panel="2">
+      <div class="step__head">
+        <span class="step__eyebrow">Step 02 · Create Case</span>
+        <h1 class="step__title">Add Client</h1>
+        <p class="step__desc">Identity, address and contact are pulled from the KYC record and locked. Confirm services, choose a package — payment calculates automatically.</p>
+      </div>
+
+      <div class="locked-block">
+        <div class="locked-block__row">
+          <span class="locked-block__label">Customer ID</span>
+          <span class="locked-block__value mono" id="lockedCustId">—</span>
+        </div>
+        <div class="locked-block__grid">
+          <div><span class="locked-block__label">Name</span><span class="locked-block__value" id="lockedName">—</span></div>
+          <div><span class="locked-block__label">Business</span><span class="locked-block__value" id="lockedBusiness">—</span></div>
+          <div><span class="locked-block__label">Contact</span><span class="locked-block__value" id="lockedPhone">—</span></div>
+          <div><span class="locked-block__label">Email</span><span class="locked-block__value" id="lockedEmail">—</span></div>
+        </div>
+        <span class="locked-block__tag">🔒 Auto-filled &amp; locked from KYC</span>
+      </div>
+
+      <fieldset class="services">
+        <legend>Confirm services</legend>
+        <div class="services__grid" id="confirmServices"></div>
+      </fieldset>
+
+      <fieldset class="packages">
+        <legend>Choose a package</legend>
+        <div class="packages__grid" id="packageGrid">
+          <label class="package-card" data-price="4999">
+            <input type="radio" name="package" value="Basic" data-price="4999">
+            <span class="package-card__name">Basic</span>
+            <span class="package-card__price">₹4,999<em>/mo</em></span>
+            <span class="package-card__desc">Core bookkeeping &amp; filing for small accounts.</span>
+          </label>
+          <label class="package-card" data-price="9999">
+            <input type="radio" name="package" value="Standard" data-price="9999" checked>
+            <span class="package-card__name">Standard</span>
+            <span class="package-card__price">₹9,999<em>/mo</em></span>
+            <span class="package-card__desc">Adds payroll and quarterly compliance review.</span>
+          </label>
+          <label class="package-card" data-price="17999">
+            <input type="radio" name="package" value="Premium" data-price="17999">
+            <span class="package-card__name">Premium</span>
+            <span class="package-card__price">₹17,999<em>/mo</em></span>
+            <span class="package-card__desc">Full audit support with a dedicated accountant.</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="paymentMode">Payment mode</label>
+          <select id="paymentMode" name="paymentMode">
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="UPI">UPI</option>
+            <option value="Cheque">Cheque</option>
+          </select>
+        </div>
+        <div class="field payment-summary">
+          <label>Payment summary</label>
+          <div class="payment-summary__box">
+            <div class="payment-summary__row"><span>Package fee</span><span id="sumPackage">₹0</span></div>
+            <div class="payment-summary__row"><span>Add-on services (₹500 each)</span><span id="sumAddons">₹0</span></div>
+            <div class="payment-summary__row"><span>GST (18%)</span><span id="sumTax">₹0</span></div>
+            <div class="payment-summary__row payment-summary__row--total"><span>Total</span><span id="sumTotal">₹0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step__actions step__actions--split">
+        <button type="button" class="btn btn--ghost" id="backToStep1">← Back to KYC</button>
+        <button type="submit" class="btn btn--primary">Create Case →</button>
+      </div>
+    </form>
+
+    <!-- STEP 3: entry point for the popup -->
+    <div class="step is-hidden" id="stepSoon" data-step-panel="soon">
+      <div class="soon">
+        <span class="soon__badge">Case created</span>
+        <h2>Quotation → Invoice → Receipt → Compliance</h2>
+        <p>Four steps, one popup, calculated from the package and payment mode you chose. The Client ID is issued only once Compliance signs off.</p>
+        <div class="soon__actions">
+          <button type="button" class="btn btn--ghost" id="backFromSoon">← Back to Add Client</button>
+          <button type="button" class="btn btn--primary" id="openPopup">Continue in popup →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Client ID Created -->
+    <div class="step is-hidden" id="step4" data-step-panel="4">
+      <div class="done-screen">
+        <span class="done-screen__badge">✓ Client onboarded</span>
+        <h2>Client ID Created</h2>
+        <p class="mono done-screen__id" id="finalClientId">CLT-0001</p>
+        <p class="done-screen__desc">Compliance approved the case for <strong id="finalCustomerName">—</strong>. The customer is now officially a client.</p>
+        <div class="done-screen__summary" id="finalSummary"></div>
+        <button type="button" class="btn btn--primary" id="startNewClient">Start a new client →</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ---------- CASE FILE / DOSSIER COLUMN ---------- -->
+  <aside class="panel dossier" aria-label="Case file summary">
+    <div class="dossier__head">
+      <span>Case File</span>
+      <span class="dossier__perf" aria-hidden="true"></span>
+    </div>
+
+    <div class="stub" id="custStub">
+      <span class="stub__label">Customer ID</span>
+      <span class="stub__value mono" id="stubCustId">— — — —</span>
+      <span class="stub__status" id="stubCustStatus">awaiting KYC</span>
+    </div>
+
+    <div class="stub stub--pending" id="clientStub">
+      <span class="stub__label">Client ID</span>
+      <span class="stub__value mono" id="stubClientId">— — — —</span>
+      <span class="stub__status" id="stubClientStatus">issued only after Compliance</span>
+    </div>
+
+    <dl class="dossier__facts" id="dossierFacts">
+      <div><dt>Name</dt><dd id="factName">—</dd></div>
+      <div><dt>Business</dt><dd id="factBusiness">—</dd></div>
+      <div><dt>Contact</dt><dd id="factPhone">—</dd></div>
+      <div><dt>Services</dt><dd id="factServices">—</dd></div>
+      <div><dt>Package</dt><dd id="factPackage">—</dd></div>
+      <div><dt>Est. total</dt><dd id="factTotal">—</dd></div>
+    </dl>
+
+    <ol class="dossier__mini-steps" id="miniSteps">
+      <li data-mini="1"><span>01</span> KYC Form</li>
+      <li data-mini="2"><span>02</span> Add Client</li>
+      <li data-mini="3"><span>03</span> Quotation → Compliance</li>
+      <li data-mini="4"><span>04</span> Client ID Created</li>
+    </ol>
+
+    <p class="dossier__footnote">Client ID (CLT) is <strong>not</strong> generated at Add&nbsp;Client. It is issued only after the full flow completes.</p>
+  </aside>
+
+</main>
+
+<!-- ============ POPUP: Quotation -> Invoice -> Receipt -> Compliance ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal__head">
+      <div>
+        <span class="step__eyebrow">Step 03 · Inside a popup</span>
+        <h2 class="modal__title" id="modalTitle">Quotation → Invoice → Receipt → Compliance</h2>
+      </div>
+      <button type="button" class="modal__close" id="modalClose" aria-label="Close">✕</button>
+    </div>
+
+    <ol class="modal__tabs" id="modalTabs">
+      <li data-stage="1" class="is-active"><span>1</span>Quotation</li>
+      <li data-stage="2"><span>2</span>Invoice</li>
+      <li data-stage="3"><span>3</span>Receipt</li>
+      <li data-stage="4"><span>4</span>Compliance</li>
+    </ol>
+
+    <div class="modal__body">
+
+      <!-- QUOTATION -->
+      <div class="modal-stage is-active" data-modal-stage="1">
+        <p class="modal-stage__desc">A quotation is generated from the package and services confirmed in Add Client.</p>
+        <div class="doc-card">
+          <div class="doc-card__row"><span>Quotation No.</span><span class="mono" id="quoteNo">QUO-0001</span></div>
+          <div class="doc-card__row"><span>Customer</span><span id="quoteCustomer">—</span></div>
+          <div class="doc-card__row"><span>Package</span><span id="quotePackage">—</span></div>
+          <div class="doc-card__row"><span>Services</span><span id="quoteServices">—</span></div>
+          <div class="doc-card__row doc-card__row--total"><span>Quoted amount</span><span class="mono" id="quoteTotal">₹0</span></div>
+        </div>
+      </div>
+
+      <!-- INVOICE -->
+      <div class="modal-stage" data-modal-stage="2">
+        <p class="modal-stage__desc">On acceptance, the quotation converts into a formal invoice with a due date.</p>
+        <div class="doc-card">
+          <div class="doc-card__row"><span>Invoice No.</span><span class="mono" id="invoiceNo">INV-0001</span></div>
+          <div class="doc-card__row"><span>Issue date</span><span id="invoiceDate">—</span></div>
+          <div class="doc-card__row"><span>Due date</span><span id="invoiceDue">—</span></div>
+          <div class="doc-card__row doc-card__row--total"><span>Amount due</span><span class="mono" id="invoiceTotal">₹0</span></div>
+        </div>
+      </div>
+
+      <!-- RECEIPT -->
+      <div class="modal-stage" data-modal-stage="3">
+        <p class="modal-stage__desc">Confirm payment against the invoice to generate a receipt.</p>
+        <div class="doc-card">
+          <div class="doc-card__row"><span>Receipt No.</span><span class="mono" id="receiptNo">RCT-0001</span></div>
+          <div class="doc-card__row"><span>Payment mode</span><span id="receiptMode">—</span></div>
+          <div class="doc-card__row"><span>Amount received</span><span class="mono" id="receiptTotal">₹0</span></div>
+        </div>
+        <label class="chip chip--block">
+          <input type="checkbox" id="paymentConfirmed">
+          <span>Payment received &amp; verified</span>
+        </label>
+      </div>
+
+      <!-- COMPLIANCE -->
+      <div class="modal-stage" data-modal-stage="4">
+        <p class="modal-stage__desc">Final checks before the customer officially becomes a client.</p>
+        <div class="compliance-list">
+          <label class="chip chip--block"><input type="checkbox" class="compliance-check"><span>KYC documents verified</span></label>
+          <label class="chip chip--block"><input type="checkbox" class="compliance-check"><span>Tax ID (PAN/GSTIN) validated</span></label>
+          <label class="chip chip--block"><input type="checkbox" class="compliance-check"><span>Signed engagement letter on file</span></label>
+          <label class="chip chip--block"><input type="checkbox" class="compliance-check"><span>Payment reconciled with receipt</span></label>
+        </div>
+        <p class="field-error" id="complianceError">All four checks are required before approval.</p>
+      </div>
+
+    </div>
+
+    <div class="modal__footer">
+      <button type="button" class="btn btn--ghost" id="modalBack">← Back</button>
+      <span class="modal__progress" id="modalProgress">Stage 1 of 4</span>
+      <button type="button" class="btn btn--primary" id="modalNext">Next →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
